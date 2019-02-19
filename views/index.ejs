@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Simple Group Chat on Node.js</title>
+    <title>Chat simple construido con Node.js</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font: 13px Helvetica, Arial; }
@@ -18,27 +18,27 @@
   <body>
     <ul id="messages"></ul>
     <form action="/" method="POST" id="chatForm">
-      <input id="txt" autocomplete="off" autofocus="on" oninput="isTyping()" placeholder="type your message here..." /><button>Send</button>
+      <input id="txt" autocomplete="off" autofocus="on" oninput="isTyping()" placeholder="Escribe tu mensaje aquí..." /><button>Enviar</button>
     </form>
     <script>
             var socket = io.connect('http://localhost:8080');
-            // submit text message without reload/refresh the page
+            // enviar mensaje de texto sin recargar/reiniciar la página
             $('form').submit(function(e){
-                e.preventDefault(); // prevents page reloading
+                e.preventDefault(); // evitar recarga página
                 socket.emit('chat_message', $('#txt').val());
                 $('#txt').val('');
                 return false;
             });
-            // append the chat text message
+            // Añadir mensaje texto al chat
             socket.on('chat_message', function(msg){
                 $('#messages').append($('<li>').html(msg));
             });
-            // append text if someone is online
+            // Añadir texto si alguien está online
             socket.on('is_online', function(username) {
                 $('#messages').append($('<li>').html(username));
             });
-            // ask username
-            var username = prompt('Please tell me your name');
+            // Preguntar el nombre de usuario
+            var username = prompt('Dime tu nombre, por favor');
             socket.emit('username', username);
     </script>
   </body>
